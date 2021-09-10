@@ -1,0 +1,51 @@
+# 开发环境配置
+server:
+  # 服务端口
+  port: 9999
+eureka:
+  client:
+    serviceUrl:
+      # 指定注册中心
+      defaultZone: http://localhost:10000/eureka/
+secure:
+  ignore:
+    urls[0]: /doc.html
+    urls[1]: /swagger-resources/**
+    urls[2]: /swagger/**
+    urls[3]: /**/v2/api-docs
+    urls[4]: /**/*.js
+    urls[5]: /**/*.css
+    urls[6]: /**/*.png
+    urls[7]: /**/*.ico
+    urls[8]: /webjars/springfox-swagger-ui/**
+    urls[9]: /actuator/**
+    urls[10]: /deng-auth/oauth/token
+    urls[11]: /deng-auth/rsa/publicKey
+    # 定时任务
+    urls[12]: /static/**
+    urls[13]: /deng-quartz/scheduled/add/task
+    urls[14]: /deng-quartz/scheduled/edit/task
+    urls[15]: /deng-quartz/scheduled/stopJob
+    urls[16]: /deng-quartz/scheduled/startJob
+    urls[17]: /deng-quartz/scheduled/queryScheduledTaskPage
+    urls[18]: /deng-quartz/scheduled/queryDetailByTaskKey
+    urls[19]: /deng-quartz/scheduled/deleteBatchByIds
+    # 配置文件信息
+    urls[20]: /deng-currency/syspropertycontroller/deleteBatchPropertys
+    urls[21]: /deng-currency/syspropertycontroller/saveOrUpdateProperty
+    urls[22]: /deng-currency/syspropertycontroller/querySysPropertyByKey
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9999/deng-auth/rsa/publicKey
+#------------------- Springboot Actuator Begin -----------------
+management:
+  server:
+    port: 19999
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#------------------- Springboot Actuator End -----------------

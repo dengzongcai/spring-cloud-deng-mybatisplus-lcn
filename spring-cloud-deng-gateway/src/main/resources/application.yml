@@ -1,0 +1,64 @@
+# dev:开发环境
+spring:
+  profiles:
+    # 指定yml文件
+    active: dev
+  application:
+    # 服务名称
+    name: deng-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          # 是否与服务发现组件进行组合，通过serviceId转发到具体的服务实例。默认为false，若为true便开启基于服务发现的路由规则
+          enabled: false
+          # 当注册中心为Eureka时,设置为true标识开启用小写的serviceId进行基于服务路由转发
+          lower-case-service-id: true
+      # 权限模块
+      routes[0]:
+        id: deng-auth
+        uri: lb://deng-auth
+        predicates[0]: Path=/deng-auth/**
+        filters[0]: StripPrefix=1
+      # 通用模块
+      routes[1]:
+        id: deng-currency
+        uri: lb://deng-currency
+        predicates[0]: Path=/deng-currency/**
+        filters[0]: StripPrefix=1
+      # 定时任务模块
+      routes[2]:
+        id: deng-quartz
+        uri: lb://deng-quartz
+        predicates[0]: Path=/deng-quartz/**
+        filters[0]: StripPrefix=1
+      # 账户模块
+      routes[3]:
+        id: deng-account
+        uri: lb://deng-account
+        predicates[0]: Path=/deng-account/**
+        filters[0]: StripPrefix=1
+#------------------- Feign/Hystrix Begin ---------------------
+# ribbon和hystrix timeout 设置
+# 开启熔断器功能
+hystrix:
+  command:
+    fallbacktest:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+    default:
+      execution:
+        isolation:
+          thread:
+            # 超时时间（默认1000ms，单位：ms）在THREAD模式下，达到超时时间，可以中断 在SEMAPHORE模式下，会等待执行完成后，再去判断是否超时
+            # 设置标准： 有retry，99meantime+avg meantime 没有retry，99.5meantime（方法上记得要加上@HystrixCommand，否则无效）
+            timeoutInMilliseconds: 10000
+        semaphore:
+          # 允许的最大请求数，如果达到最大并发数时，后续请求会被拒绝(默认值：10)
+          maxConcurrentRequests: 5000
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 10000
+#------------------- Feign/Hystrix End ---------------------

@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    #指定yml文件
+    active: dev
+
+eureka:
+  server:
+    # 关闭自我保护
+    enable-self-preservation: false
+  client:
+    # 声明是否将自己的信息注册到 Eureka 服务器上(eureka自身也是一个客户端，关闭自己注册到eureka服务端中) (默认为true)
+    register-with-eureka: false
+    # 是否到 Eureka 服务器中抓取注册信息 (默认为true)
+    fetch-registry: false
+  instance:
+    # 服务续约间隔时间 ，系统默认为30秒，在不清楚的情况下不建议修改
+    lease-renewal-interval-in-seconds: 30
+    # 服务失效时间，在多久没有续约后剔除服务，系统默认为90秒，在不清楚的情况下不建议修改
+    lease-expiration-duration-in-seconds: 90
+    # ip进行注册 (默认为false)
+    prefer-ip-address: true

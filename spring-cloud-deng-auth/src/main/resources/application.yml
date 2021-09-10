@@ -1,0 +1,80 @@
+spring:
+  profiles:
+    # 指定yml
+    active: dev
+  application:
+    # 服务名称
+    name: deng-auth
+#------------------- Data config Begin ---------------------
+  datasource:
+    # 数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+datasource:
+  druid:
+    # Druid 获取连接最大等待时间
+    maxwait: 60000
+#------------------- Data config End ---------------------
+
+#------------------- Feign/Hystrix Begin ---------------------
+# default全局有效，service id指定应用有效
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            # 熔断超时设置，默认1000ms
+            timeoutInMilliseconds: 15000
+        timeout:
+          # 是否开启超时熔断
+          enabled: true
+        semaphore:
+          # 允许的最大请求数，如果达到最大并发数时，后续请求会被拒绝(默认值：10)
+          maxConcurrentRequests: 5000
+feign:
+  hystrix:
+    # Feign默认已经整合了Hystrix
+    enabled: true
+  httpclient:
+    enabled: true
+# 远程调用超时设置
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
+  # 对当前实例的重试次数
+  MaxAutoRetries: 0
+  # 对切换实例的重试次数，默认1
+  MaxAutoRetriesNextServer: 0
+#------------------- Feign/Hystrix End ---------------------
+
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage:  com.deng.auth.entitys
+  #typeEnumsPackage: com.baomidou.springboot.entity.enums
+  global-config:
+    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    id-type: 2
+    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    field-strategy: 2
+    #驼峰下划线转换
+    db-column-underline: true
+    #刷新mapper 调试神器
+    refresh-mapper: true
+    #数据库大写下划线转换
+    #capital-mode: true
+    #序列接口实现类配置
+    #key-generator: com.baomidou.springboot.xxx
+    #逻辑删除配置
+    logic-delete-value: 1
+    logic-not-delete-value: 0
+    #自定义填充策略接口实现
+    #meta-object-handler: com.wl.wlp2ploansystem.infrastructures.common.mybatis.MybatisMetaObjectHandler
+    #自定义SQL注入器
+    sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+    #type-handlers-package: com.wl.wlp2ploansystem.infrastructures.common.mybatis.typeHandlers
+  configuration:
+    map-underscore-to-camel-case: false
+    cache-enabled: false

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="spring-cloud-deng-gateway" />
+        <module name="spring-cloud-deng-commons" />
+        <module name="spring-cloud-deng-account" />
+        <module name="spring-cloud-deng-auth" />
+        <module name="spring-cloud-deng-tm" />
+        <module name="spring-cloud-deng-quartz" />
+        <module name="spring-cloud-deng-currency" />
+        <module name="spring-cloud-deng-eureka" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="account" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="spring-cloud-deng-account" options="-parameters" />
+      <module name="spring-cloud-deng-auth" options="-parameters" />
+      <module name="spring-cloud-deng-commons" options="-parameters" />
+      <module name="spring-cloud-deng-currency" options="-parameters" />
+      <module name="spring-cloud-deng-eureka" options="-parameters" />
+      <module name="spring-cloud-deng-gateway" options="-parameters" />
+      <module name="spring-cloud-deng-quartz" options="-parameters" />
+      <module name="spring-cloud-deng-tm" options="-parameters" />
+    </option>
+  </component>
+</project>

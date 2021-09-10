@@ -1,0 +1,112 @@
+server:
+  # 服务端口
+  port: 9004
+
+#------------------- Tomcat config Start ---------------------
+  tomcat:
+    # Tomcat维护最大的对列数
+    accept-count: 200
+    # Tomcat线程池最多能起的线程数
+    max-threads: 200
+    # （连接） /  服务器将在任何给定时间接受和处理的最大连接数
+    max-connections: 1500
+    #worker线程的最小数量
+    min-spare-threads: 10
+#------------------- Tomcat config End ---------------------
+
+eureka:
+  client:
+    serviceUrl:
+      # 指定注册中心
+      defaultZone: http://localhost:10000/eureka/
+ribbon:
+  eureka:
+    # 允许 Eureka
+    enabled: true
+#------------------- Springboot Actuator Begin -----------------
+management:
+  server:
+    # 管理端点HTTP端口
+    port:
+#------------------- Springboot Actuator End -----------------
+
+#------------------- Data config Begin ---------------------
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/deng-account?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: root
+    password: root
+  #------------------- redis config Begin ---------------------
+  redis:
+    # Redis服务器地址
+    host: 121.4.237.128
+    # Redis服务器连接端口
+    port: 9111
+    # Redis服务器连接密码（默认为空）
+    password:
+    # Redis数据库索引（默认为0）
+    timeout: 1000
+    pool:
+      # 连接池最大连接数（使用负值表示没有限制）
+      maxTotal: 100
+      # 连接池中的最大空闲连接
+      # maxIdle: 8
+      # 连接超时时间（毫秒）当池内没有返回对象时最大等待时间
+      maxWaitMillis: 300000
+      # 连接池中的最小空闲连接
+      # minIdle: 0
+      # 空闲连接多长时间后会被收回
+      minEvictableIdleTimeMillis: 300000
+      # 一次最多evict的pool里的jedis实例个数
+      numTestsPerEvictionRun: 5
+      # 多长时间检查一次连接池中空闲的连接
+      timeBetweenEvictionRunsMillis: 300000
+      # 当调用borrow Object方法时，是否进行有效性检查
+      testOnBorrow: true
+      # 当调用return Object方法时，是否进行有效性检查
+      testOnReturn: true
+      #空闲时是否进行验证，检查对象是否有效
+      testWhileIdle: true
+    jedis:
+      pool:
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池中的最小空闲连接
+        min-idle: 0
+  #------------------- redis config End ---------------------
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+
+datasource:
+  druid:
+    # Druid 初始化连接大小
+    initialsize: 10
+    # Druid 连接池最小空闲
+    minidle: 10
+    # Druid 连接池最大使用连接数量
+    maxactive: 100
+#------------------- Data config End ---------------------
+# LCN配置
+tx-lcn:
+  client:
+    manager-address: 127.0.0.1:8070
+  springcloud:
+    loadbalance:
+      enabled: true
+  logger:
+    #是否开启日志记录,当开启以后需要配置对应logger的数据库连接配置信息
+    enabled: true
+    driver-class-name: ${spring.datasource.driver-class-name}
+    jdbc-url: jdbc:mysql://localhost:3306/deng-tm?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+  ribbon:
+    loadbalancer:
+      dtx:
+        # 是否启动LCN负载均衡策略(优化选项,开启与否,功能不受影响)
+        enabled: true

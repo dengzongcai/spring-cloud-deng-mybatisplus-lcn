@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>定时任务修改</title>
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/mediaelementplayer.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/red.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/simple-line-icons.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <!-- jquery -->
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+</head>
+<body>
+<div class="col-md-12 top-20 padding-0">
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="panel-heading">
+                    <h4>修改定时任务项</h4>
+                </div>
+                <div class="col-md-6" style="padding-left:10px;">
+                    <form action="#" method="post">
+                        <input type="hidden" name="id" id="id"/>
+                        <div class="form-group"><label class="col-sm-2 control-label text-right">任务key值:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="taskKey" id="taskKey" class="form-control">
+                            </div>
+                        </div>
+                        <br/> <br/> <br/>
+                        <div class="form-group"><label class="col-sm-2 control-label text-right">任务名称:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="taskName" id="taskName" class="form-control">
+                            </div>
+                        </div>
+                        <br/> <br/>
+                        <div class="form-group"><label class="col-sm-2 control-label text-right">定时配置规则:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="taskCron" id="taskCron" class="form-control"
+                                       placeholder="(例如: * /5 * * * * ? 每5秒执行一次)">
+                            </div>
+                        </div>
+                        <br/> <br/>
+                        <div class="form-group"><label class="col-sm-2 control-label text-right">状态:</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="taskStatus">
+                                    <option value="0" selected="selected">
+                                        禁用
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="button" class="btn btn-3d btn-danger" onclick="toIndex()" align="left"
+                               style="float:left;margin-left:700px;" value="关闭"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="button" class="btn  btn-3d btn-success" id="updatetask" align="right" value="保存"/>
+                    </form>
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" inline="javascript">
+    var shareurl = 'http://localhost:9999/deng-quartz';
+    $(function () {
+        $("#updatetask").on('click', function (e) {
+            var taskKey = $("#taskKey").val();
+            var taskName = $("#taskName").val();
+            var taskCron = $("#taskCron").val();
+            var taskStatus = $("#taskStatus").val();
+            var id = $("#id").val();
+            $.ajax({
+                url: shareurl + "/scheduled/edit/task",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    "taskKey": taskKey,
+                    "taskName": taskName,
+                    "taskCron": taskCron,
+                    "taskStatus": taskStatus,
+                    "id": id
+                },
+                success: function (result) {
+                    if (result.code == 0) {
+                        toIndex();
+                    } else if (result.code == 1001) {
+                        alert("该任务key值已经存在");
+                    } else if (result.code == 1002) {
+                        alert("更新失败!");
+                    } else {
+                        alert("system error");
+                    }
+                }
+            })
+        });
+
+        getDetail();
+    });
+
+    // 获取详情信息
+    function getDetail() {
+        var taskKey = getUrlValue("taskKey");
+        $.ajax({
+            url: shareurl + "/scheduled/queryDetailByTaskKey",
+            dataType: "json",
+            type: "POST",
+            data: {
+                "taskKey": taskKey
+            },
+            success: function (result) {
+                if (result.code == 0) {
+                    var item = result.data;
+                    $("#id").val(item.id);
+                    $("#taskKey").val(item.taskKey);
+                    $("#taskName").val(item.taskName);
+                    $("#taskCron").val(item.taskCron);
+                    $("#taskStatus").val(item.taskStatus);
+                } else {
+                    alert("system error");
+                    toIndex();
+                }
+            }
+        });
+    }
+
+    // 去列表页面
+    function toIndex() {
+        window.location.href='index.html';
+    }
+
+    //获取 url 值
+    function getUrlValue(name) {
+        var reg = new RegExp("(^|\\?|&)"+ name +"=([^&]*)(\\s|&|$)", "i");
+        if (reg.test(location.href)){//获取url中"?"符后的字串
+            return unescape(RegExp.$2.replace(/\+/g, " "));
+        }
+        return "";
+    }
+</script>
+</body>
+</html>

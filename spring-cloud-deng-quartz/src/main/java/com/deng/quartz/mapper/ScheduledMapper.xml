@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deng.quartz.mapper.ScheduledMapper">
+    <resultMap id="BaseResultMap" type="com.deng.quartz.entitys.Scheduled">
+        <id column="id" property="id"/>
+        <result column="task_key" property="taskKey"/>
+        <result column="task_name" property="taskName"/>
+        <result column="task_cron" property="taskCron"/>
+        <result column="task_status" property="taskStatus"/>
+        <result column="gmt_created_by" property="gmtCreatedBy"/>
+        <result column="gmt_created_on" property="gmtCreatedOn"/>
+        <result column="gmt_updated_by" property="gmtUpdatedBy"/>
+        <result column="gmt_updated_on" property="gmtUpdatedOn"/>
+        <result column="gmt_version" property="gmtVersion"/>
+    </resultMap>
+</mapper>

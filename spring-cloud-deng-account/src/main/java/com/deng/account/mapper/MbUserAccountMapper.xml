@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deng.account.mapper.MbUserAccountMapper">
+    <resultMap id="BaseResultMap" type="com.deng.account.entitys.MbUserAccount">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="account_type_id" jdbcType="BIGINT" property="accountTypeId"/>
+        <result column="account_balance" jdbcType="DECIMAL" property="accountBalance"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="last_operation_object" jdbcType="VARCHAR" property="lastOperationObject"/>
+        <result column="last_trans_balance" jdbcType="DECIMAL" property="lastTransBalance"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="gmt_created_by" property="gmtCreatedBy"/>
+        <result column="gmt_created_on" property="gmtCreatedOn"/>
+        <result column="gmt_updated_by" property="gmtUpdatedBy"/>
+        <result column="gmt_updated_on" property="gmtUpdatedOn"/>
+        <result column="gmt_version" property="gmtVersion"/>
+    </resultMap>
+</mapper>
